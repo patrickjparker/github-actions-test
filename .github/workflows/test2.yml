@@ -1,0 +1,22 @@
+name: 'Build Test'
+on:
+    push:
+        branches:
+            - main
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        if: github.event_name == 'push' && contains(github.event.head_commit.modified, 'test/')
+        steps:
+            - uses: actions/checkout@v2
+            - name: Build
+              run: |
+                  echo "Something changed in test"
+    deploy:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - uses: actions/checkout@v2
+            - name: Deploy
+              run: |
+                  echo "Deploying"
